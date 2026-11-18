@@ -1,68 +1,38 @@
 import streamlit as st
-from groq import Groq
-import os
+
 st.set_page_config(
-    page_title="AI Interview Assistant",
-    page_icon="🫡",
+    page_title="Student Profile Web Application",
     layout="centered"
 )
-st.title("AI Interview Assistant")
-st.caption("A platform for AI-powered interview preparation")
-try:
-    api_key = os.environ.get("GROQ_API_KEY")
-    if not api_key:
-        api_key = st.secrets["GROQ_API_KEY"]
-    client = Groq(api_key=api_key)
-except (KeyError, FileNotFoundError):
-    st.error("API key is missing. Set GROQ_API_KEY or add GROQ_API_KEY to Streamlit secrets.")
-    st.stop()
-role = st.selectbox(
-    "JOB TITLE",
-    [
-        "Software Engineer",
-        "Senior Software Engineer",
-        "Data Analyst",
-        "Prompt Engineer",
-        "DevOps Engineer",
-        "Other"
-    ]
+
+st.title("Student Profile Application")
+st.caption("Enter your details to create your student profile.")
+
+# Student Details
+name = st.text_input("Student Name", placeholder="Enter Your Name")
+
+usn = st.text_input("USN / Roll No.", placeholder="Enter Your USN")
+
+dept = st.text_input("Department", placeholder="Enter Your Department")
+
+year = st.radio(
+    "Current Year",
+    ["1st Year", "2nd Year", "3rd Year", "4th Year"]
 )
 
-if role == "Other":
-    role = st.text_input("Enter your job title", " ")
-model = st.selectbox(
-    "MODEL",
-    [
-        "openai/gpt-oss-safeguard-20b",
-        "openai/gpt-oss-120b"
-    ]
-)
-difficulty = st.selectbox(
-    "DIFFICULTY LEVEL",
-    ["Beginner", "Intermediate", "Advanced"]
-)
-mode = st.radio(
-    "ACTIVITY",
-    [
-        "Generate questions",
-        "Generate code questions",
-        "Evaluate answer",
-        "Improve answers"
-    ]
-)
-if mode == "Generate questions":
-    count = st.slider("Number of questions", 1, 10, 5)
-elif mode == "Generate code questions":
-    topic = st.selectbox(
-        "Topics",
-        [
-            "SQL", "AI/ML", "Python", "DSA",
-            "C++/C", "Java", "Cyber Security", "ML"
-        ]
-    )
-    count = st.slider("Number of questions", 1, 10, 5)
-else:
-    question = st.text_area("Enter interview question here")
-    answer = st.text_area("Enter your answer", height=160)
-if st.button("Submit"):
-    st.info("Your inputs have been collected successfully.")
+# Button
+btn = st.button("View My Profile")
+
+if btn:
+    if name and usn and dept:
+        st.success("Profile Created Successfully!")
+
+        st.subheader("Student Profile Details")
+
+        st.write("**Student Name:**", name)
+        st.write("**USN / Roll No.:**", usn)
+        st.write("**Department:**", dept)
+        st.write("**Current Year:**", year)
+
+    else:
+        st.warning("Please fill in all the details.")
