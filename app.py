@@ -4,7 +4,7 @@ st.set_page_config(page_title="Abhilash V L",page_icon="🎓", layout="centered"
 st.title("🎓 Student Profile Application")
 st.caption("Developed by: Abhilash V L")
 try:
-  client=Groq(api_key=st.secrets["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"])
+  client=Groq(api_key=st.secrets["GROQ_API_KEY"])
 except (keyError, FileNotFoundError):
   st.error("API key is missing. addit in advanced settings")
   st.stop()
